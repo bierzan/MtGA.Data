@@ -1,2 +1,2 @@
 # MtGA.Data
-####App to get Magic Arena hidden data
+#### App to get Magic Arena hidden data
