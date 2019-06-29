@@ -54,7 +54,7 @@ public class CardListDeserializer extends StdDeserializer<CardList> {
 
                 card.setName(node.get("name").asText());
                 card.setType(node.get("type_line").asText());
-                card.setRarity(node.get("rarity").asText());
+                card.setRarity(Rarity.valueOf((node.get("rarity").asText())));
                 card.setSetName(node.get("set_name").asText());
                 if (node.has("image_uris")) {
 

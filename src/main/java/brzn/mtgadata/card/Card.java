@@ -35,7 +35,8 @@ public class Card {
 
     @Getter
     @Setter
-    private String rarity;
+    @Enumerated(EnumType.STRING)
+    private Rarity rarity;
 
     @Getter
     @Setter

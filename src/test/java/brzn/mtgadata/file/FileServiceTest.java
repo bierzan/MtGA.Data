@@ -1,19 +1,22 @@
 package brzn.mtgadata.file;
 
+import brzn.mtgadata.card.CardRepo;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FileServiceTest {
 
-    private FileService fs = new FileService();
-    private   String data =
+    @Mock
+    CardRepo cardRepo;
+
+    private FileService fs = new FileService(cardRepo);
+    private String data =
             "(Filename: C:\\buildslave\\unity\\build\\Runtime/Export/Debug.bindings.h Line: 45)\n" +
                     "\n" +
                     "[UnityCrossThreadLogger]17.06.2019 22:58:27\n" +

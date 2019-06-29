@@ -9,7 +9,7 @@ import java.io.IOException;
 @Controller
 public class CardController {
 
-    CardService cardService;
+    private CardService cardService;
 
     @Autowired
     public CardController(CardService cardService) {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonDeserialize(using = CardListDeserializer.class)
-public class CardList {
+final class CardList {
 
     @Getter
     @Setter
@@ -23,11 +23,11 @@ public class CardList {
     @JsonProperty("cards")
     private List<Card> cards = new ArrayList<>();
 
-    public boolean hasMore() {
+    boolean hasMore() {
         return hasMore;
     }
 
-    public void setHasMore(boolean hasMore) {
+    void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
     }
 }
