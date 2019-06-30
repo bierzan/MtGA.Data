@@ -1,9 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<body class="container">
 
-<div>
-    <p>data</p>
+<div class="container" th:each="p: ${progress}">
+    <h3 th:text="${p.setName}"></h3>
+    <table class="table">
+        <tr>
+            <th>commons</th>
+            <th>uncommons</th>
+            <th>rares</th>
+            <th>mythics</th>
+            <th>collected</th>
+            <th>overall</th>
+        </tr>
+        <tr>
+            <td th:text="${p.counted.commons + '/' + p.total.commons}"></td>
+            <td th:text="${p.counted.uncommons + '/' + p.total.uncommons}"></td>
+            <td th:text="${p.counted.rares + '/' + p.total.rares}"></td>
+            <td th:text="${p.counted.mythics + '/' + p.total.mythics}"></td>
+            <td rowspan="2" th:text="${p.overallCount}"></td>
+            <td rowspan="2" th:text="${p.overallTotal}"></td>
+
+        </tr>
+        <tr>
+            <td th:text="${#numbers.formatDecimal(p.percentage.commons,1,2)} + '%'"></td>
+            <td th:text="${#numbers.formatDecimal(p.percentage.uncommons,1,2)} + '%'"></td>
+            <td th:text="${#numbers.formatDecimal(p.percentage.rares,1,2)} + '%'"></td>
+            <td th:text="${#numbers.formatDecimal(p.percentage.mythics,1,2)} + '%'"></td>
+        </tr>
+    </table>
 </div>
 
 </body>

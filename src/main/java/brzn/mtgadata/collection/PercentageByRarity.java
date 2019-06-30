@@ -1,11 +1,19 @@
 package brzn.mtgadata.collection;
 
-//todo do testowania
+import lombok.Getter;
+
 final class PercentageByRarity {
 
+    @Getter
     private double commons;
+
+    @Getter
     private double uncommons;
+
+    @Getter
     private double rares;
+
+    @Getter
     private double mythics;
 
     static PercentageByRarity countPercentage(CountByRarity collected, CountByRarity total) {
@@ -26,7 +34,6 @@ final class PercentageByRarity {
     }
 
     private static double getPercentsFromInt(int a, int b) {
-        double result = (double) a / (double) b;
-        return Math.round(result * 100);
+        return(double) a / (double) b * 100;
     }
 }

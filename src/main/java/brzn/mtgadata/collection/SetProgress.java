@@ -15,7 +15,7 @@ public final class SetProgress {
     private CountByRarity total;
 
     @Getter
-    private PercentageByRarity progress;
+    private PercentageByRarity percentage;
 
     @Getter
     private int overallCount;
@@ -31,7 +31,7 @@ public final class SetProgress {
         this.setName = setName;
         this.counted = counted;
         this.total = total;
-        this.progress = PercentageByRarity.countPercentage(counted, total);
+        this.percentage = PercentageByRarity.countPercentage(counted, total);
         this.overallCount = counted.getTotal();
         this.overallTotal = total.getTotal();
     }

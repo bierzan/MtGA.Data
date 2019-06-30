@@ -36,9 +36,11 @@ public class FileService {
 
         for (Long cardId : collectionRaw.keySet()) {
             Card card = cardService.findOneByArenaId(cardId);
-            CardCount cc = new CardCount(card, collectionRaw.get(cardId));
-            collectionByCards.add(cc);
-            cardSetNames.add(card.getSetName());
+            if(card!=null){
+                CardCount cc = new CardCount(card, collectionRaw.get(cardId));
+                collectionByCards.add(cc);
+                cardSetNames.add(card.getSetName());
+            }
         }
 
         for (String set : cardSetNames) {
