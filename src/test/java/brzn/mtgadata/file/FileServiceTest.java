@@ -1,6 +1,7 @@
 package brzn.mtgadata.file;
 
-import brzn.mtgadata.card.CardRepo;
+import brzn.mtgadata.card.CardService;
+import brzn.mtgadata.collection.SetProgressService;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -13,9 +14,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class FileServiceTest {
 
     @Mock
-    CardRepo cardRepo;
+    private CardService cardService;
 
-    private FileService fs = new FileService(cardRepo);
+    @Mock
+    private SetProgressService progressService;
+
+    private FileService fs = new FileService(cardService, progressService);
     private String data =
             "(Filename: C:\\buildslave\\unity\\build\\Runtime/Export/Debug.bindings.h Line: 45)\n" +
                     "\n" +

@@ -29,6 +29,14 @@ public class CardService {
         } while (cl.hasMore());
     }
 
+    public Card findOneByArenaId(long id) {
+        return cardRepo.findOneByArenaId(id);
+    }
+
+    public Integer countCardsBySetNameAndRarity(String set, Rarity rarity) {
+        return cardRepo.countCardsBySetNameAndRarity(set, rarity);
+    }
+
     private CardList mapToCardListClassFromAPI(String apiUrl) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();

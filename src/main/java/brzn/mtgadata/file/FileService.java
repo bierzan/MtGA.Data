@@ -2,10 +2,9 @@ package brzn.mtgadata.file;
 
 import brzn.mtgadata.card.Card;
 import brzn.mtgadata.card.CardCount;
-import brzn.mtgadata.card.CardRepo;
-import brzn.mtgadata.card.Rarity;
-import brzn.mtgadata.collection.CountByRarity;
+import brzn.mtgadata.card.CardService;
 import brzn.mtgadata.collection.SetProgress;
+import brzn.mtgadata.collection.SetProgressService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,50 +17,33 @@ import java.util.*;
 @Service
 public class FileService {
 
-    private CardRepo cardRepo;
+    private CardService cardService;
+    private SetProgressService progressService;
 
     @Autowired
-    public FileService(CardRepo cardRepo) {
-        this.cardRepo = cardRepo;
+    public FileService(CardService cardService, SetProgressService progressService) {
+        this.cardService = cardService;
+        this.progressService = progressService;
     }
 
     public List<SetProgress> getCollectionProgress(MultipartFile file) throws IOException {
         String data = IOUtils.toString(file.getInputStream(), Charset.forName("UTF-8"));
         Map<Long, Integer> collectionRaw = getContentFromFile(data);
+
         List<CardCount> collectionByCards = new ArrayList<>();
         Set<String> cardSetNames = new HashSet<>();
         List<SetProgress> progressesBySet = new ArrayList<>();
 
         for (Long cardId : collectionRaw.keySet()) {
-            Card card = cardRepo.findOneByArenaId(cardId);
+            Card card = cardService.findOneByArenaId(cardId);
             CardCount cc = new CardCount(card, collectionRaw.get(cardId));
             collectionByCards.add(cc);
             cardSetNames.add(card.getSetName());
         }
 
         for (String set : cardSetNames) {
-            CountByRarity cbr = new CountByRarity();
-            CountByRarity totalCbr = new CountByRarity();
-            totalCbr.addCommons(cardRepo.countCardsBySetNameAndRarity(set, Rarity.COMMON) * 4);
-            totalCbr.addCommons(cardRepo.countCardsBySetNameAndRarity(set, Rarity.UNCOMMON) * 4);
-            totalCbr.addCommons(cardRepo.countCardsBySetNameAndRarity(set, Rarity.RARE) * 4);
-            totalCbr.addCommons(cardRepo.countCardsBySetNameAndRarity(set, Rarity.MYTHIC) * 4);
-
-            collectionByCards.stream()
-                    .filter(collectedCard -> collectedCard.isFromSet(set))
-                    .forEach(collectedCard -> {
-                        switch (collectedCard.getCardRarity()) {
-                            case COMMON:
-                                cbr.addCommons(collectedCard.getCount());
-                            case UNCOMMON:
-                                cbr.addUcommons(collectedCard.getCount());
-                            case RARE:
-                                cbr.addRares(collectedCard.getCount());
-                            case MYTHIC:
-                                cbr.addMythics(collectedCard.getCount());
-                        }
-                    });
-            progressesBySet.add(SetProgress.generateProgress(set, cbr, totalCbr));
+            SetProgress sp = progressService.getSetProgress(collectionByCards, set);
+            progressesBySet.add(sp);
         }
         return progressesBySet;
     }

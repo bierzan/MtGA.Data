@@ -27,6 +27,6 @@ final class PercentageByRarity {
 
     private static double getPercentsFromInt(int a, int b) {
         double result = (double) a / (double) b;
-        return Math.round(result * 100) / 100;
+        return Math.round(result * 100);
     }
 }
